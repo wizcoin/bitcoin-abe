@@ -71,6 +71,7 @@ CHAIN_CONFIG = [
      "code3":"SC0", "address_version":"\x6f", "magic":"\xca\xfe\xba\xbe"},
     {"chain":"Worldcoin",
      "code3":"WDC", "address_version":"\x49", "magic":"\xfb\xc0\xb6\xdb"},
+	{"chain":"WizCoin","code3":"WIZ", "address_version":"\u0026"}, 
     {"chain":"NovaCoin"},
     {"chain":"CryptoCash"},
     {"chain":"Anoncoin","code3":"ANC", "address_version":"\u0017", "magic":"\xFA\xCA\xBA\xDA" },
