@@ -73,6 +73,7 @@ CHAIN_CONFIG = [
      "code3":"WDC", "address_version":"\x49", "magic":"\xfb\xc0\xb6\xdb"},
     {"chain":"NovaCoin"},
     {"chain":"CryptoCash"},
+    {"chain":"Anoncoin","code3":"ANC", "address_version":"\u0017", "magic":"\xFA\xCA\xBA\xDA" },
     #{"chain":"",
     # "code3":"", "address_version":"\x", "magic":""},
     ]
@@ -2211,6 +2212,12 @@ store._ddl['txout_approx'],
 
     def _export_scriptPubKey(store, txout, chain, scriptPubKey):
         """In txout, set script_type, address_version, binaddr, and for multisig, required_signatures."""
+
+        if scriptPubKey is None:
+            txout['script_type'] = None
+            txout['binaddr'] = None
+            return
+
         script_type, data = chain.parse_txout_script(scriptPubKey)
         txout['script_type'] = script_type
         txout['address_version'] = chain.address_version
@@ -3279,7 +3286,7 @@ store._ddl['txout_approx'],
             return False
         chain = store.chains_by.id[chain_id]
 
-        conffile = dircfg['conf'] or chain.datadir_conf_file_name
+        conffile = dircfg.get('conf') or chain.datadir_conf_file_name
         conffile = os.path.join(dircfg['dirname'], conffile)
         try:
             conf = dict([line.strip().split("=", 1)
