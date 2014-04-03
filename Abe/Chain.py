@@ -177,8 +177,6 @@ class Chain(object):
         * SCRIPT_TYPE_MULTISIG - DATA is {"m":M, "pubkeys":list_of_pubkeys}
         * SCRIPT_TYPE_P2SH     - DATA is the binary script hash
         """
-        if script is None:
-            raise ValueError()
         try:
             decoded = [ x for x in deserialize.script_GetOp(script) ]
         except Exception:
@@ -192,7 +190,7 @@ class Chain(object):
                 return SCRIPT_TYPE_ADDRESS, pubkey_hash
 
         elif deserialize.match_decoded(decoded, SCRIPT_PUBKEY_TEMPLATE):
-            pubkey = decoded[0][1]
+            pubkey = decoded[0][1] or chr(decoded(0))
             return SCRIPT_TYPE_PUBKEY, pubkey
 
         elif deserialize.match_decoded(decoded, SCRIPT_P2SH_TEMPLATE):
